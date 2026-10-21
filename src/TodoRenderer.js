@@ -13,7 +13,7 @@ export class TodoRenderer {
     const oldestPendingLabel = pendingTasks.length ? pendingTasks[0].desc : 'none';
 
     this.container.innerHTML =
-      `<p class="status">${summarizeWorkload(service)} - oldest: ${oldestPendingLabel}</p>` +
+      `<p class="status">${service.getWorkloadSummary()} - oldest: ${oldestPendingLabel}</p>` +
       '<h2 class="section-title">To do</h2>' +
       `<ul>${pendingTasks.map((task) => renderTask(task)).join('') || '<li>Nothing pending. Add a task above.</li>'}</ul>` +
       '<h2 class="section-title">Completed</h2>' +
@@ -44,22 +44,4 @@ function renderTask(task) {
         <button data-delete="${task.id}">Delete</button>
       </span>
     </li>`;
-}
-
-function summarizeWorkload(service) {
-  let done = 0;
-  let urgent = 0;
-  let normal = 0;
-
-  for (const task of service.tasks) {
-    if (task.completed) {
-      done++;
-    } else if (task.priority === 'high') {
-      urgent++;
-    } else {
-      normal++;
-    }
-  }
-
-  return `${done}/${service.tasks.length} done - ${urgent} urgent, ${normal} normal remaining`;
 }
