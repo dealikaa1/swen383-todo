@@ -1,22 +1,23 @@
+// src/main.js
 import { TodoService } from './TodoService.js';
 import { TodoRenderer } from './TodoRenderer.js';
 import { LocalStorageHandler } from './LocalStorageHandler.js';
+import { TodoController } from './TodoController.js';
 
-const service = new TodoService(new LocalStorageHandler());
-const renderer = new TodoRenderer('task-container');
+const service    = new TodoService(new LocalStorageHandler());
+const renderer   = new TodoRenderer('task-container');
+const controller = new TodoController(service, renderer);
 
-renderer.render(service);
+controller.start();
 
-const input = document.getElementById('task-input');
-const addBtn = document.getElementById('add-task-btn');
+const input        = document.getElementById('task-input');
+const addBtn       = document.getElementById('add-task-btn');
 const addUrgentBtn = document.getElementById('add-urgent-btn');
 const taskContainer = document.getElementById('task-container');
 
 function add(type) {
-  const newId = service.addTask(input.value, type);
-  if (newId) {
+  if (controller.addTask(input.value, type)) {
     input.value = '';
-    renderer.render(service, newId);
   }
 }
 
@@ -29,16 +30,18 @@ input.addEventListener('keydown', (event) => {
 });
 
 taskContainer.addEventListener('click', (event) => {
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+
   const toggleButton = event.target.closest('[data-toggle]');
   if (toggleButton) {
-    service.toggleComplete(Number(toggleButton.dataset.toggle));
-    renderer.render(service);
+    controller.toggleTask(Number(toggleButton.dataset.toggle));
     return;
   }
 
   const deleteButton = event.target.closest('[data-delete]');
   if (deleteButton) {
-    service.deleteTask(Number(deleteButton.dataset.delete));
-    renderer.render(service);
+    controller.deleteTask(Number(deleteButton.dataset.delete));
   }
 });
