@@ -1,3 +1,4 @@
+// src/main.js
 import { TodoService } from './TodoService.js';
 import { TodoRenderer } from './TodoRenderer.js';
 import { LocalStorageHandler } from './LocalStorageHandler.js';
@@ -9,8 +10,8 @@ const controller = new TodoController(service, renderer);
 
 controller.start();
 
-const input = document.getElementById('task-input');
-const addBtn = document.getElementById('add-task-btn');
+const input        = document.getElementById('task-input');
+const addBtn       = document.getElementById('add-task-btn');
 const addUrgentBtn = document.getElementById('add-urgent-btn');
 const taskContainer = document.getElementById('task-container');
 
@@ -29,6 +30,10 @@ input.addEventListener('keydown', (event) => {
 });
 
 taskContainer.addEventListener('click', (event) => {
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+
   const toggleButton = event.target.closest('[data-toggle]');
   if (toggleButton) {
     controller.toggleTask(Number(toggleButton.dataset.toggle));
