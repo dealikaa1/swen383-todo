@@ -1,5 +1,5 @@
 ## 1. God Object, src/todo.js
-**Where:** src/todo.js, lines 2-121 (class TodoManager)
+**Where:** Week 1 baseline, `src/todo.js`, lines 2-121 (class TodoManager)
 **Smell:** This one class stores the tasks, saves them to localStorage,
 decides if a task is valid, and builds/renders all the HTML. It's doing
 four unrelated jobs at once.
@@ -9,7 +9,7 @@ A small storage change could easily break something unrelated by accident.
 **Not yet fixing:** noted for Week 3.
 
 ## 2. Feature Envy, src/todo.js
-**Where:** src/todo.js, lines 143-160 (function summarizeWorkload)
+**Where:** Week 1 baseline, `src/todo.js`, lines 143-160 (function summarizeWorkload)
 **Smell:** This function has no data of its own — it just loops over
 manager.tasks and counts things. It's basically living inside
 TodoManager's business without being part of the class.
@@ -19,7 +19,7 @@ even though nothing about its location makes that obvious.
 **Not yet fixing:** noted for Week 3.
 
 ## 3. Magic Numbers, src/todo.js
-**Where:** src/todo.js, line 20 (`< 3`), line 25 (`>= 20`), line 125 (`> 40`)
+**Where:** Week 1 baseline, `src/todo.js`, line 20 (`< 3`), line 25 (`>= 20`), line 125 (`> 40`)
 **Smell:** Three unexplained numbers — minimum task length, a warning
 threshold, and a truncation limit — with no comment saying why those
 specific values were chosen.
