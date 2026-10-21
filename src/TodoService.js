@@ -1,7 +1,7 @@
 export class TodoService {
-  constructor(storageHandler) {
-    this.storageHandler = storageHandler;
-    this.tasks = this.storageHandler.loadTasks();
+  constructor(storage) {
+    this.storage = storage;
+    this.tasks = this.storage.load();
   }
 
   addTask(description, type) {
@@ -28,7 +28,7 @@ export class TodoService {
     }
 
     this.tasks.push(task);
-    this.storageHandler.saveTasks(this.tasks);
+    this.storage.save(this.tasks);
     return task.id;
   }
 
@@ -39,12 +39,12 @@ export class TodoService {
     }
 
     task.completed = !task.completed;
-    this.storageHandler.saveTasks(this.tasks);
+    this.storage.save(this.tasks);
   }
 
   deleteTask(id) {
     this.tasks = this.tasks.filter((task) => task.id !== id);
-    this.storageHandler.saveTasks(this.tasks);
+    this.storage.save(this.tasks);
   }
 
   getWorkloadSummary() {
