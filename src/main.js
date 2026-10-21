@@ -1,4 +1,21 @@
 // src/main.js
+// src/main.js: two new imports at the top
+import { LoggingTodoServiceDecorator } from './LoggingTodoServiceDecorator.js';
+
+// before
+// const service = factory.createService();
+// after
+const service = new LoggingTodoServiceDecorator(factory.createService());
+import { IdeaBox } from './IdeaBox.js';
+import { IdeaBoxAdapter } from './IdeaBoxAdapter.js';
+
+// ...after the controller is created:
+const suggestions = new IdeaBoxAdapter(new IdeaBox());
+const suggestBtn = document.getElementById('suggest-btn');
+
+suggestBtn.addEventListener('click', () => {
+  controller.addTask(suggestions.getSuggestion());
+});
 import { TodoRenderer } from './TodoRenderer.js';
 import { TodoController } from './TodoController.js';
 import { LocalStorageFactory } from './StorageFactory.js';
